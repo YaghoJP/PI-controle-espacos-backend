@@ -18,6 +18,5 @@ jobs:
           message: |
             📢 Novo commit no repositório!
             Branch: ${{ github.ref }}
-            Commit: ${{ github.sha }}
             Autor: ${{ github.actor }}
             Mensagem: ${{ github.event.head_commit.message }}
