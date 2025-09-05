@@ -1,0 +1,22 @@
+name: Discord Notify
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send message to Discord
+        uses: appleboy/discord-action@v1.2.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }} 
+          message: |
+            📢 Novo commit no repositório!
+            Branch: ${{ github.ref }}
+            Autor: ${{ github.actor }}
+            Mensagem: ${{ github.event.head_commit.message }}
