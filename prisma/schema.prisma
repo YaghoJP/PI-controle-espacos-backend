@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id            Int       @id @default(autoincrement())
+  name          String?
+  email         String    @unique
+  password_hash String
+  role          String
+  created_at    DateTime? @default(now())
+
+  dependents     dependents[]
+  reservations   reservations[]
+  notifications  notifications[]
+  audit_logs     audit_logs[]
+  approved_reservations reservations[] @relation("approvedBy")
+
+  @@map("users")
+}
+
+model dependents {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  name       String?
+  birth_date DateTime?
+  relationship String?
+  created_at DateTime? @default(now())
+
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("dependents")
+}
+
+model spaces {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  capacity    Int?
+  available   Boolean   @default(true)
+  created_at  DateTime? @default(now())
+
+  rules        space_rules[]
+  reservations reservations[]
+  restrictions reservation_restrictions[]
+
+  @@map("spaces")
+}
+
+model space_rules {
+  id                   Int       @id @default(autoincrement())
+  space_id             Int
+  rule_description     String?
+  restriction_start_time DateTime?
+  restriction_end_time   DateTime?
+  allowed_days         String?
+
+  space spaces @relation(fields: [space_id], references: [id], onDelete: Cascade)
+
+  @@map("space_rules")
+}
+
+model reservations {
+  id              Int       @id @default(autoincrement())
+  user_id         Int
+  space_id        Int
+  reservation_date DateTime
+  start_time      DateTime
+  end_time        DateTime
+  status          String    @default("pending")
+  created_at      DateTime? @default(now())
+  approved_by     Int?
+  rejection_reason String?
+
+  user   users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  space  spaces @relation(fields: [space_id], references: [id], onDelete: Cascade)
+  admin  users? @relation("approvedBy", fields: [approved_by], references: [id])
+
+  @@map("reservations")
+}
+
+model notifications {
+  id       Int       @id @default(autoincrement())
+  user_id  Int
+  title    String?
+  message  String?
+  sent_at  DateTime? @default(now())
+
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model audit_logs {
+  id        Int       @id @default(autoincrement())
+  user_id   Int?
+  action    String?
+  table_name String?
+  record_id Int?
+  timestamp DateTime? @default(now())
+
+  user users? @relation(fields: [user_id], references: [id])
+
+  @@map("audit_logs")
+}
+
+model reservation_restrictions {
+  id                       Int       @id @default(autoincrement())
+  space_id                 Int
+  max_hours_per_day        Int?
+  max_reservations_per_user Int?
+  allowed_start_time       DateTime?
+  allowed_end_time         DateTime?
+  restricted_days          String?
+
+  space spaces @relation(fields: [space_id], references: [id], onDelete: Cascade)
+
+  @@map("reservation_restrictions")
+}
