@@ -7,7 +7,6 @@ Este projeto é um backend para uma matéria da faculdade (Projeto Integrador) u
 - Express
 - Prisma ORM
 - Docker + Docker Compose
-- Validação com Zod
 - Testes com Jest
 
 ---
