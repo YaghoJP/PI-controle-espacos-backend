@@ -1,24 +1,27 @@
-// src/routes.ts
 import { Router } from "express";
-import { PrismaClient } from "@prisma/client";
-import { SpaceService } from "./services/SpaceService";
+import { UserController } from "./controllers/UserController";
 import { SpaceController } from "./controllers/SpaceController";
+import { SpaceService } from "./services/SpaceService";
+import prisma from "./prisma";
 
-export function createAppRouter(prismaClient?: PrismaClient) {
-  const router = Router();
+//Router
+const router = Router();
 
-  const prisma = prismaClient ?? new PrismaClient();
-  const service = new SpaceService(prisma);
-  const controller = new SpaceController(service);
+//Rotas do usuario.
+const user = new UserController();
+router.post('/user', user.handleCreate.bind(user));
+router.get('/users', user.handleList.bind(user));
+router.get('/users/:id', user.handleListByID.bind(user));
+router.put('/user/:id', user.handleUpdate.bind(user));
+router.delete('/user/:id', user.handleDelete.bind(user));
 
-  router.post("/spaces", controller.create);     // cria 1 ou N
-  router.get("/spaces", controller.list);
-  router.get("/spaces/:id", controller.getById);
-  router.patch("/spaces/:id", controller.update);
-  router.delete("/spaces/:id", controller.delete);
+const service = new SpaceService(prisma);
+const controller = new SpaceController(service);
+router.post("/spaces", controller.create);     // cria 1 ou N
+router.get("/spaces", controller.list);
+router.get("/spaces/:id", controller.getById);
+router.patch("/spaces/:id", controller.update);
+router.delete("/spaces/:id", controller.delete);
 
-  return router;
-}
+export {router};
 
-const router = createAppRouter();
-export default router;
