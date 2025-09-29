@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.3.1",
     "prisma": "^6.16.1",
     "ts-node-dev": "^2.0.0",
@@ -21,11 +22,12 @@
   "dependencies": {
     "-": "^0.0.1",
     "@prisma/client": "^6.16.0",
-    "express": "^5.1.0",
-    "zod": "^4.1.8",
     "@types/bcrypt": "^6.0.0",
     "D": "^1.0.0",
     "bcrypt": "^6.0.0",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^4.1.8"
   }
 }
