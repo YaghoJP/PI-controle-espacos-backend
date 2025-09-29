@@ -2,6 +2,9 @@ import { Router } from "express";
 import { UserController } from "./controllers/UserController";
 import { SpaceController } from "./controllers/SpaceController";
 import { SpaceService } from "./services/SpaceService";
+import { DependentController } from "./controllers/DependentController";
+import { DependentService } from "./services/DependentService"; // ajuste o nome se seu arquivo for DependentServices.ts
+
 import prisma from "./prisma";
 import { AuthController } from "./controllers/authController";
 
@@ -25,6 +28,17 @@ router.get("/spaces", controller.list);
 router.get("/spaces/:id", controller.getById);
 router.patch("/spaces/:id", controller.update);
 router.delete("/spaces/:id", controller.delete);
+
+const dependentService = new DependentService(prisma);
+const dependentController = new DependentController(dependentService);
+
+router.post("/dependents", dependentController.create);
+router.get("/dependents", dependentController.list);
+router.get("/dependents/:id", dependentController.getById);
+router.patch("/dependents/:id", dependentController.update);
+router.delete("/dependents/:id", dependentController.delete);
+
+
 
 export {router};
 
