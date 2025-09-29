@@ -3,13 +3,16 @@ import { UserController } from "./controllers/UserController";
 import { SpaceController } from "./controllers/SpaceController";
 import { SpaceService } from "./services/SpaceService";
 import prisma from "./prisma";
+import { AuthController } from "./controllers/authController";
 
 //Router
 const router = Router();
 
 //Rotas do usuario.
 const user = new UserController();
+const auth = new AuthController();
 router.post('/user', user.handleCreate.bind(user));
+router.post('/session', auth.login.bind(auth));
 router.get('/users', user.handleList.bind(user));
 router.get('/users/:id', user.handleListByID.bind(user));
 router.put('/user/:id', user.handleUpdate.bind(user));
