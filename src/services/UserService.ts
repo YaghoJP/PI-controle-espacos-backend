@@ -1,4 +1,4 @@
-import prisma from "../pisma";
+import prisma from "../prisma";
 import {hash} from 'bcrypt';
 
 //Interfaces

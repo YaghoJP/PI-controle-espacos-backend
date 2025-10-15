@@ -4,7 +4,7 @@ import { SpaceController } from "./controllers/SpaceController";
 import { SpaceService } from "./services/SpaceService";
 import { DependentController } from "./controllers/DependentController";
 import { DependentService } from "./services/DependentService"; // ajuste o nome se seu arquivo for DependentServices.ts
-
+import { ReservationController } from "./controllers/ReservationController";
 import prisma from "./prisma";
 import { AuthController } from "./controllers/authController";
 
@@ -38,6 +38,12 @@ router.get("/dependents/:id", dependentController.getById);
 router.patch("/dependents/:id", dependentController.update);
 router.delete("/dependents/:id", dependentController.delete);
 
+const reservationController = new ReservationController();
+router.post("/reservations", reservationController.create.bind(reservationController));
+router.get("/reservations", reservationController.list.bind(reservationController));
+router.get("/reservations/:id", reservationController.getById.bind(reservationController));
+router.patch("/reservations/:id", reservationController.update.bind(reservationController));
+router.delete("/reservations/:id", reservationController.delete.bind(reservationController));
 
 
 export {router};
