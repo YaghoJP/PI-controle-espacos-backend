@@ -15,9 +15,10 @@ export function authenticateUser(req: Request, res: Response, next: NextFunction
 
         const token = authHeader.split(' ')[1];
 
-        const { id } = verify(token, SECRET_KEY) as AuthTokenInterface;
+        const { id, role } = verify(token, SECRET_KEY) as AuthTokenInterface;
         
         req.user_id = id;
+        req.user_role = role;
 
         return next();
     }catch(error:any){
