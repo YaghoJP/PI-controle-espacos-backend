@@ -3,6 +3,7 @@ import cors from 'cors';
 import { router } from './routes';
 
 import { HandleError } from './middlewares/ErrorHandler';
+import path from 'path';
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(cors());
 app.use(router);
 
 app.use(HandleError)
+
+app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);

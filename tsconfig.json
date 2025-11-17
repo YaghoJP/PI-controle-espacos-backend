@@ -6,11 +6,12 @@
     "rootDir": "./",
     "outDir": "./dist",
     "typeRoots": ["./src/@types", "tests", "./node_modules/@types"],
-    "types": ["node"], 
+    "types": ["node", "express"],
+
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "strict": false
   },
-  "include": ["src/**/*.ts", "prisma/**/*.ts", "**/*.ts"]
+  "include": ["src/**/*", "prisma/**/*", "tests/**/*"]
 }
