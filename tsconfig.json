@@ -3,7 +3,7 @@
     "target": "es2016",
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
     "typeRoots": ["./src/@types", "./node_modules/@types"],
     "types": ["node", "express"],
