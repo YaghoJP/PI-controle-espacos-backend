@@ -36,11 +36,26 @@ router.post("/spaces/:id/image",authenticateUser,spaceUpload.single("image"),con
 const dependentService = new DependentService(prisma);
 const dependentController = new DependentController(dependentService);
 
+<<<<<<< HEAD
+router.post("/dependents", dependentController.create);
+router.get("/dependents", dependentController.list);
+router.get("/dependents/:id", dependentController.getById);
+router.patch("/dependents/:id", dependentController.update);
+router.delete("/dependents/:id", dependentController.delete);
+
+const reservationController = new ReservationController();
+router.post("/reservations", reservationController.create.bind(reservationController));
+router.get("/reservations", reservationController.list.bind(reservationController));
+router.get("/reservations/:id", reservationController.getById.bind(reservationController));
+router.patch("/reservations/:id", reservationController.update.bind(reservationController));
+router.delete("/reservations/:id", reservationController.delete.bind(reservationController));
+=======
 router.post("/dependents", authenticateUser ,dependentController.create);
 router.get("/dependents", authenticateUser, dependentController.list);
 router.get("/dependents/:id", authenticateUser, dependentController.getById);
 router.patch("/dependents/:id", authenticateUser, dependentController.update);
 router.delete("/dependents/:id", authenticateUser ,dependentController.delete);
+>>>>>>> main
 
 const reservationController = new ReservationController();
 router.post("/reservations", authenticateUser, reservationController.create.bind(reservationController));
