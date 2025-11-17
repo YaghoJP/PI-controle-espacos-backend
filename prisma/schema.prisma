@@ -49,6 +49,7 @@ model spaces {
   description String?
   capacity    Int?
   available   Boolean   @default(true)
+  imageUrl    String?  
   created_at  DateTime? @default(now())
 
   rules        space_rules[]
