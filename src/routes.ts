@@ -9,6 +9,7 @@ import prisma from "./prisma";
 import { AuthController } from "./controllers/authController";
 import { authenticateUser } from "./middlewares/Auth";
 import { upload as spaceUpload } from "./controllers/SpaceController"; // exportamos o multer do controller
+import { upload } from "./middlewares/upload";
 
 //Router
 const router = Router();
@@ -16,7 +17,7 @@ const router = Router();
 //Rotas do usuario.
 const user = new UserController();
 const auth = new AuthController();
-router.post('/user', authenticateUser, user.handleCreate.bind(user));
+router.post('/user', upload.single('image'),authenticateUser, user.handleCreate.bind(user));
 router.post('/session', auth.login.bind(auth));
 router.get('/users', authenticateUser, user.handleList.bind(user));
 router.get('/users/:id', authenticateUser, user.handleListByID.bind(user));

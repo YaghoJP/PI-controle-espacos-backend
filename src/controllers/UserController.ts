@@ -14,13 +14,16 @@ class UserController{
 
             const {name, email, password, role} = req.body;
 
+            const imageUrl = req.file ? `/uploads/users/${req.file.filename}` : null;
+
             return res.status(201).json(
                 await this.userService.create(
                     {
                         name,
                         email, 
                         password,
-                        role
+                        role,
+                        imageUser:imageUrl
                     }
                 )
             );
@@ -79,6 +82,26 @@ class UserController{
           id: Number(id)!,
         })
       );
+    } catch (error: any) {
+      next(error);
+    }
+  }
+  async uploadImage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = Number(req.params.id);
+
+      if (!req.file) {
+        return res.status(400).json({ error: "Nenhuma imagem enviada" });
+      }
+
+      const imageUrl = `/uploads/users/${req.file.filename}`;
+
+      const updated = await this.userService.updateImage({
+        id: userId,
+        imageUrl,
+      });
+
+      return res.status(200).json(updated);
     } catch (error: any) {
       next(error);
     }

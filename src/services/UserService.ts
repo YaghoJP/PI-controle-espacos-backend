@@ -38,7 +38,7 @@ class UserService {
 
     }
 
-    async create({name, email, password, role}: CreateUserInterface){
+    async create({name, email, password, role, imageUser}: CreateUserInterface){
             
         if (!name || !email || !password) {
             throw new Error("Credenciais de Nome, Email e Senha são obrigatórios.");
@@ -55,7 +55,8 @@ class UserService {
                     name,
                     email, 
                     password_hash:hashPassword,
-                    role
+                    role,
+                    imageUrl: imageUser || null
                 }
             })
         return newUser;
@@ -135,6 +136,12 @@ class UserService {
             email: true,
             role: true
             }
+        });
+    }
+    async updateImage(data: { id: number; imageUrl: string }) {
+        return await prisma.users.update({
+            where: { id: data.id },
+            data: { imageUrl: data.imageUrl },
         });
     }
 };

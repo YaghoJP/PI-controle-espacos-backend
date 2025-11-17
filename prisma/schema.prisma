@@ -20,6 +20,7 @@ model users {
   password_hash String
   role          String
   created_at    DateTime? @default(now())
+  imageUrl      String? 
 
   dependents     dependents[]
   reservations   reservations[]
