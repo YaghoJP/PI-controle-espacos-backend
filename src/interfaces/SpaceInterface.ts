@@ -10,6 +10,7 @@ export const SpaceBaseInputSchema = z.object({
   capacity: z.coerce.number().int().nonnegative(),
   available: z.coerce.boolean(),
   createdAt: z.coerce.date().optional(),
+  imageUrl: z.string().url().optional(),
 });
 
 export const CreateSpaceSchema = SpaceBaseInputSchema;
@@ -35,6 +36,7 @@ export const SpaceSchema = z.object({
   capacity: z.number().int(),
   available: z.boolean(),
   createdAt: z.date(),
+  imageUrl: z.string().nullable().optional(),
 });
 
 export type SpaceDTO = z.infer<typeof SpaceSchema>;

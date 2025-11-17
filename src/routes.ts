@@ -8,6 +8,8 @@ import { ReservationController } from "./controllers/ReservationController";
 import prisma from "./prisma";
 import { AuthController } from "./controllers/authController";
 import { authenticateUser } from "./middlewares/Auth";
+import { upload as spaceUpload } from "./controllers/SpaceController"; // exportamos o multer do controller
+
 //Router
 const router = Router();
 
@@ -28,6 +30,7 @@ router.get("/spaces", authenticateUser, controller.list);
 router.get("/spaces/:id", authenticateUser, controller.getById);
 router.patch("/spaces/:id", authenticateUser, controller.update);
 router.delete("/spaces/:id", authenticateUser, controller.delete);
+router.post("/spaces/:id/image",authenticateUser,spaceUpload.single("image"),controller.uploadImage.bind(controller));
 
 const dependentService = new DependentService(prisma);
 const dependentController = new DependentController(dependentService);

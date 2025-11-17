@@ -39,6 +39,7 @@ export class SpaceService implements ISpaceService {
       capacity: d.capacity,
       available: d.available,
       created_at: new Date(),
+      image_url: d.imageUrl || null,
     };
   }
   async list(): Promise<SpaceDTO[]> {
@@ -68,6 +69,7 @@ export class SpaceService implements ISpaceService {
         ...(data.capacity !== undefined ? { capacity: data.capacity } : {}),
         ...(data.available !== undefined ? { available: data.available } : {}),
         ...(data.createdAt !== undefined ? { createdAt: data.createdAt } : {}),
+        ...(data.imageUrl !== undefined ? { image_url: data.imageUrl } : {}),
       },
     });
     // Map created_at to createdAt for SpaceDTO
