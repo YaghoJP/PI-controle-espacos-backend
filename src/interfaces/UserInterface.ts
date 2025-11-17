@@ -11,6 +11,7 @@ export interface BaseUserInterface {
 
 export interface CreateUserInterface extends BaseUserInterface {
   password: string;
+  imageUser: string | null;
 }
 
 export interface UpdateUserInterface {
