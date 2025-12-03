@@ -73,12 +73,6 @@ O servidor estará disponível em: http://localhost:3000
 
 ---
 
-## 🧪 Executar os testes
-
-```bash
-yarn test
-```
-
 ---
 
 ## 📚 Scripts úteis
