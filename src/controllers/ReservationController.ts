@@ -33,6 +33,19 @@ class ReservationController {
     }
   }
 
+  async listBySpace(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { space_id } = req.params;
+
+      return res
+        .status(200)
+        .json(await this.service.listBySpace(Number(space_id)));
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
