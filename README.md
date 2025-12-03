@@ -11,12 +11,6 @@ Este projeto é um backend para uma matéria da faculdade (Projeto Integrador) u
 
 ---
 
-## 📂 Estrutura do Projeto
-
-```bash
-Falta adicionar
-```
-
 ---
 
 ## 🚀 Como executar o projeto
