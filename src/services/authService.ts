@@ -2,6 +2,7 @@ import {sign} from 'jsonwebtoken';
 import {hash, compare} from 'bcrypt';
 import { AuthLoginInterface } from '../interfaces/AuthInterface';
 import prisma from '../prisma';
+import { Role } from '../interfaces/UserInterface';
 
 class AuthService{
     async login({email, password}:AuthLoginInterface){
@@ -35,6 +36,7 @@ class AuthService{
             id:user.id,
             name:user.name,
             email:user.email,
+            role:user.role,
             token:token
         }
     }

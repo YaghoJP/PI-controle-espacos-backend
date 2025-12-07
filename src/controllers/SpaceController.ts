@@ -40,6 +40,7 @@ export class SpaceController {
     console.log("Chegou no controller");
     try {
       const payload = CreateSpaceInputSchema.parse(req.body);
+      console.log(payload);
       const created = await this.service.create(payload);
       return res.status(201).json(created);
     } catch (err) {

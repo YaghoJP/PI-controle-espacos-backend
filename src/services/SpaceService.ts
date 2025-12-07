@@ -11,7 +11,10 @@ export class SpaceService implements ISpaceService {
   constructor(private prisma: PrismaClient) {}
 
   async create(data: CreateSpaceInput): Promise<SpaceDTO | SpaceDTO[]> {
+    
+    console.log(data)
     if (Array.isArray(data)) {
+      console.log("dentro do if")
       const createdSpaces = await this.prisma.$transaction(
         data.map((space) =>
           this.prisma.spaces.create({
@@ -24,10 +27,12 @@ export class SpaceService implements ISpaceService {
         return { ...rest, createdAt: created_at } as SpaceDTO;
       });
     } else {
+      console.log("else")
       const created = await this.prisma.spaces.create({
         data: this.mapCreateData(data),
       });
       const { created_at, ...rest } = created as any;
+      console.log(created)
       return { ...rest, createdAt: created_at } as SpaceDTO;
     }
   }
@@ -37,14 +42,16 @@ export class SpaceService implements ISpaceService {
       name: d.name,
       description: d.description,
       capacity: d.capacity,
-      available: d.available,
+      available: d.available ?? true,
       created_at: new Date(),
-      image_url: d.imageUrl || null,
+      imageUrl: d.imageUrl ?? null, 
     };
   }
+
   async list(): Promise<SpaceDTO[]> {
     const items = await this.prisma.spaces.findMany({ orderBy: { id: "asc" } });
     return items.map((item: any) => {
+
       const { created_at, ...rest } = item;
       return { ...rest, createdAt: created_at } as SpaceDTO;
     });
