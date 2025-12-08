@@ -37,8 +37,8 @@ export class SpaceController {
 
   // POST /spaces   
   create = async (req: Request, res: Response) => {
-    console.log("Chegou no controller");
     try {
+      console.log("Chegou no controller");
       const payload = CreateSpaceInputSchema.parse(req.body);
       console.log(payload);
       const created = await this.service.create(payload);

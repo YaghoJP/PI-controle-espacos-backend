@@ -10,7 +10,7 @@ export const SpaceBaseInputSchema = z.object({
   capacity: z.coerce.number().int().nonnegative(),
   available: z.coerce.boolean(),
   createdAt: z.coerce.date().optional(),
-  imageUrl: z.string().url().optional(),
+  imageUrl: z.string().url().nullable().optional(),
 });
 
 export const CreateSpaceSchema = SpaceBaseInputSchema;

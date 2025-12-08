@@ -49,6 +49,10 @@
     router.get("/reservations/:id", authenticateUser, reservationController.getById.bind(reservationController));
     router.patch("/reservations/:id", authenticateUser, reservationController.update.bind(reservationController));
     router.delete("/reservations/:id", authenticateUser, reservationController.delete.bind(reservationController));
+    router.patch("/reservations/:id/cancel", authenticateUser, reservationController.cancel.bind(reservationController));
+    router.patch("/reservations/:id/approve", authenticateUser, reservationController.approve.bind(reservationController));
+
+
 
     export {router};
 

@@ -11,7 +11,7 @@ export class SpaceService implements ISpaceService {
   constructor(private prisma: PrismaClient) {}
 
   async create(data: CreateSpaceInput): Promise<SpaceDTO | SpaceDTO[]> {
-    
+    console.log("dentro do service")
     console.log(data)
     if (Array.isArray(data)) {
       console.log("dentro do if")
