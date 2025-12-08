@@ -8,7 +8,11 @@ import {
 
 class ReservationService {
 
-  async checkAvailability({ space_id, start_time, end_time }: {
+  async checkAvailability({
+    space_id,
+    start_time,
+    end_time
+  }: {
     space_id: number;
     start_time: Date;
     end_time: Date;
@@ -30,23 +34,69 @@ class ReservationService {
     return conflict ? false : true;
   }
 
+  async isSameDay(a: Date, b: Date): Promise<boolean> {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  }
 
   async create(data: CreateReservationInterface) {
-    if (!data.user_id || !data.space_id || !data.start_time || !data.end_time) {
-      throw new Error("Campos obrigatórios: user_id, space_id, start_time, end_time");
+    if (
+      !data.user_id ||
+      !data.space_id ||
+      !data.start_time ||
+      !data.end_time ||
+      !data.reservation_date
+    ) {
+      throw new Error(
+        "Campos obrigatórios: user_id, space_id, reservation_date, start_time, end_time"
+      );
+    }
+
+    const reservationDate = new Date(data.reservation_date);
+    const startTime = new Date(data.start_time);
+    const endTime = new Date(data.end_time);
+
+    if (!this.isSameDay(startTime, endTime)) {
+      throw new Error("A reserva deve iniciar e terminar no mesmo dia.");
+    }
+
+    if (!this.isSameDay(reservationDate, startTime)) {
+      throw new Error(
+        "O campo reservation_date deve ser no mesmo dia do horário de início da reserva."
+      );
+    }
+
+    if (endTime <= startTime) {
+      throw new Error("O horário de término deve ser depois do horário de início.");
     }
 
     const isAvailable = await this.checkAvailability({
       space_id: data.space_id,
-      start_time: data.start_time,
-      end_time: data.end_time
+      start_time: startTime,
+      end_time: endTime
     });
 
     if (!isAvailable) {
       throw new Error("O espaço já está reservado nesse intervalo de tempo!");
     }
 
-    return await prisma.reservations.create({ data });
+    const reservation = await prisma.reservations.create({
+      data: {
+        user_id: data.user_id,
+        space_id: data.space_id,
+        reservation_date: reservationDate,
+        start_time: startTime,
+        end_time: endTime,
+        status: data.status ?? "pending",
+        approved_by: data.approved_by ?? null,
+        rejection_reason: data.rejection_reason ?? null
+      }
+    });
+
+    return reservation;
   }
 
   async list() {
