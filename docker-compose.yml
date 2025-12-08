@@ -13,6 +13,25 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d reservacm"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: reservacm-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://admin:admin@postgres:5432/reservacm
+      JWT_SECRET: projetopi
+      PORT: 3333
+    ports:
+      - "3333:3333"
 
 volumes:
   pgdata:
