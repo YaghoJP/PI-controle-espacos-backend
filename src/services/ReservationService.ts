@@ -146,6 +146,28 @@ class ReservationService {
       data
     });
   }
+  async cancel(id: number) {
+    if (!id) throw new Error("O ID da reserva é obrigatório!");
+
+    return await prisma.reservations.update({
+      where: { id },
+      data: { status: "cancelled" }
+    });
+  }
+
+  async approve(id: number, adminId: number) {
+    if (!id) throw new Error("O ID da reserva é obrigatório!");
+
+    if (!adminId) throw new Error("É necessário informar o ID do administrador que aprovou!");
+
+    return await prisma.reservations.update({
+      where: { id },
+      data: {
+        status: "confirmed",
+        approved_by: adminId
+      }
+    });
+  }
 
   async delete({ id }: DeleteReservationInterface) {
     if (!id) throw new Error("O ID é obrigatório!");
